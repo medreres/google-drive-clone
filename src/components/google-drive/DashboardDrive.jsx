@@ -21,6 +21,7 @@ export default function Dashboard() {
                 key={folder.id}
                 style={{
                   maxWidth: "250px",
+                  margin: '5px'
                 }}
               >
                 <Folder folder={folder} />

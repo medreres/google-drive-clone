@@ -32,7 +32,7 @@ export default function AddFolderButton({ currentFolder }) {
 
   return (
     <>
-      <Button onClick={toggleModal} variant="outline-success">
+      <Button onClick={toggleModal} variant="outline-success" className="mb-2">
         <FontAwesomeIcon icon={faFolderPlus} />
       </Button>
       <Modal show={open} onHide={toggleModal}>

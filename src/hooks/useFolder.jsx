@@ -41,9 +41,9 @@ function reducer(state, { type, payload }) {
 
     case ACTIONS.SET_CHILD_FOLDERS:
       return {
-          ...state,
-          childFolders: payload.childFolders,
-      }
+        ...state,
+        childFolders: payload.childFolders,
+      };
     default:
       return state;
   }
@@ -100,7 +100,12 @@ export default function useFolder(folderId = null, folder = null) {
 
   useEffect(() => {
     // create a query
-    const q = query(db.folders, where("parentId", "==", folderId));
+    const q = query(
+      db.folders,
+      where("parentId", "==", folderId),
+      where("userId", "==", currentUser.uid),
+      orderBy("createdAt")
+    );
 
     return onSnapshot(q, (snapshot) => {
       const childFolders = [];
