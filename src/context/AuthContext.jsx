@@ -5,8 +5,8 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   updateEmail as updateEmailFb,
-  updatePassword as updatePasswordFb
-}  from "firebase/auth";
+  updatePassword as updatePasswordFb,
+} from "firebase/auth";
 
 const AuthContext = React.createContext();
 
@@ -39,13 +39,17 @@ export default function AuthProvider({ children }) {
   }
 
   function updatePassword(password) {
-    return updatePasswordFb(auth.currentUser, password)
+    return updatePasswordFb(auth.currentUser, password);
   }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
-      setLoading(false);
+      if (user) {
+        setCurrentUser(user);
+        console.log(user)
+        setLoading(false);
+        return;
+      }
     });
     return () => {
       unsubscribe();
@@ -61,5 +65,5 @@ export default function AuthProvider({ children }) {
     updatePassword,
     updateEmail,
   };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 }

@@ -1,27 +1,29 @@
 import React, { useRef, useState } from "react";
 import { Card, Form, Button, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
-const ForgotPassword = () => {
+
+const Login = () => {
   const emailRef = useRef();
-  const { resetPassword } = useAuth();
+  const passwordRef = useRef();
+  const { login, currentUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
+    
     try {
       setError("");
       setLoading(true);
-      await resetPassword(emailRef.current.value);
-      setMessage('Check your email address');
+      await login(emailRef.current.value, passwordRef.current.value);
+      navigate('/');
     } catch (error) {
       console.log(error);
-      setError("Failed to reset password");
+      setError("Failed to sign in");
     }
 
     setLoading(false);
@@ -31,21 +33,24 @@ const ForgotPassword = () => {
     <>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-3">Password Resst</h2>
+          <h2 className="text-center mb-3">Log In</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          {message && <Alert variant="success">{message}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>
               <Form.Control autoComplete="on" ref={emailRef} type="email" />
             </Form.Group>
-
+            <Form.Group id="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control autoComplete="on" ref={passwordRef} type="password" />
+            </Form.Group>
+            
             <Button disabled={loading} type="submit" className="w-100 mt-3">
-              Reset Password
+              Log In
             </Button>
           </Form>
           <div className="w-100 text-center mt-3">
-            <Link to="/login">Login</Link>
+              <Link to='/forgot-password'>Forgot password?</Link>
           </div>
         </Card.Body>
       </Card>
@@ -56,4 +61,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default Login;

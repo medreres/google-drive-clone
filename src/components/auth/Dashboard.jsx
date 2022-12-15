@@ -3,8 +3,8 @@ import { updateCurrentUser } from "firebase/auth";
 import React, { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { auth } from "../firebase";
+import { useAuth } from "../../context/AuthContext";
+import { auth } from "../../firebase";
 
 const Dashboard = () => {
   const [error, setError] = useState();
