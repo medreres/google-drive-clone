@@ -1,10 +1,20 @@
-import { doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { useEffect, useReducer } from "react";
+import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 
 const ACTIONS = {
   SELECT_FOLDER: "selectFolder",
   UPDATE_FOLDER: "updateFolder",
+  SET_CHILD_FOLDERS: "setChildFolders",
 };
 
 const ROOT_FOLDER = {
@@ -28,12 +38,19 @@ function reducer(state, { type, payload }) {
         ...state,
         folder: payload.folder,
       };
+
+    case ACTIONS.SET_CHILD_FOLDERS:
+      return {
+          ...state,
+          childFolders: payload.childFolders,
+      }
     default:
       return state;
   }
 }
 
 export default function useFolder(folderId = null, folder = null) {
+  const { currentUser } = useAuth();
   const [state, dispatch] = useReducer(reducer, {
     folderId,
     folder,
@@ -80,6 +97,23 @@ export default function useFolder(folderId = null, folder = null) {
         });
       });
   }, [folderId]);
+
+  useEffect(() => {
+    // create a query
+    const q = query(db.folders, where("parentId", "==", folderId));
+
+    return onSnapshot(q, (snapshot) => {
+      const childFolders = [];
+      snapshot.forEach((doc) => childFolders.push(db.formatDoc(doc)));
+
+      dispatch({
+        type: ACTIONS.SET_CHILD_FOLDERS,
+        payload: {
+          childFolders,
+        },
+      });
+    });
+  }, [folderId, currentUser]);
 
   return state;
 }

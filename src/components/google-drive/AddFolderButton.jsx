@@ -22,7 +22,7 @@ export default function AddFolderButton({ currentFolder }) {
     // create a folder in the database
     addFolder({
       name,
-      parentId: currentFolder,
+      parentId: currentFolder.id,
       userId: currentUser.uid,
       path: "",
     });
