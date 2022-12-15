@@ -9,15 +9,25 @@ import Login from "./auth/Login";
 import PrivateRoute from "./auth/PrivateRoute";
 import ForgotPassword from "./auth/ForgotPassword";
 import UpdateProfile from "./auth/UpdateProfile";
-import CenteredContainer from "./auth/CenteredContainer";
-
+import DashboardDrive from "./google-drive/DashboardDrive";
 const App = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          {/* Drive */}
           <Route
             path="/"
+            element={
+              <PrivateRoute>
+                <DashboardDrive />
+              </PrivateRoute>
+            }
+          />
+
+          {/* User */}
+          <Route
+            path="/user"
             element={
               <PrivateRoute>
                 <Dashboard />
@@ -32,10 +42,12 @@ const App = () => {
               </PrivateRoute>
             }
           />
+
+          {/* Auth */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/*" element={<Navigate to="/" />} />
+          {/* <Route path="/*" element={<Navigate to="/" />} /> */}
         </Routes>
       </AuthProvider>
     </BrowserRouter>
