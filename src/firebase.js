@@ -1,6 +1,15 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { addDoc, collection, getFirestore, serverTimestamp } from "firebase/firestore";
+import {
+  initializeApp
+} from "firebase/app";
+import {
+  getAuth
+} from "firebase/auth";
+import {
+  addDoc,
+  collection,
+  getFirestore,
+  serverTimestamp
+} from "firebase/firestore";
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -19,10 +28,13 @@ export const auth = getAuth();
 export const db = {
   folders: collection(firestore, "folders"),
   files: collection(firestore, "files"),
+  formatDoc: doc => ({
+    id: doc.id,
+    ...doc.data()
+  })
 };
 
 /**
- * ! deprecated
  * @param {string} name string name of folder,
  * @param {int} parentId id of parent folder,
  * @param {int} userId id of user craeted the foler,
