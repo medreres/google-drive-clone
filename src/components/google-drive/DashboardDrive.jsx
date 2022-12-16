@@ -7,11 +7,14 @@ import Folder from "./Folder";
 import { useParams, useLocation } from "react-router-dom";
 import FolderBreadCrumbs from "./FolderBreadCrumbs";
 import AddFileButton from "./AddFileButton";
+import File from "./File";
 
 export default function Dashboard() {
   const { folderId } = useParams();
   const { state = {}} = useLocation();
-  const { folder, childFolders } = useFolder(folderId);
+  const { folder, childFolders, childFiles } = useFolder(folderId);
+
+  console.log(folder)
 
   return (
     <>
@@ -22,6 +25,7 @@ export default function Dashboard() {
           <AddFileButton currentFolder={folder} />
           <AddFolderButton currentFolder={folder} />
         </div>
+        {/* Rendering folders */}
         {childFolders.length > 0 && (
           <div className="d-flex flex-wrap">
             {childFolders.map((folder, index) => (
@@ -33,6 +37,27 @@ export default function Dashboard() {
                 }}
               >
                 <Folder folder={folder} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {childFiles.length > 0 && childFolders.length > 0 && (
+          <hr />
+        )}
+
+        {/* Rendering files */}
+        {childFiles.length > 0 && (
+          <div className="d-flex flex-wrap">
+            {childFiles.map((file, index) => (
+              <div
+                key={file.id}
+                style={{
+                  maxWidth: "250px",
+                  margin: "5px",
+                }}
+              >
+                <File file={file} />
               </div>
             ))}
           </div>

@@ -16,6 +16,7 @@ const ACTIONS = {
   SELECT_FOLDER: "selectFolder",
   UPDATE_FOLDER: "updateFolder",
   SET_CHILD_FOLDERS: "setChildFolders",
+  SET_CHILD_FILES: "setChildFiles",
 };
 
 export const ROOT_FOLDER = {
@@ -44,6 +45,11 @@ function reducer(state, { type, payload }) {
       return {
         ...state,
         childFolders: payload.childFolders,
+      };
+    case ACTIONS.SET_CHILD_FILES:
+      return {
+        ...state,
+        childFiles: payload.childFiles,
       };
     default:
       return state;
@@ -92,8 +98,7 @@ export default function useFolder(folderId = null, folder = null) {
         });
       })
       .catch((err) => {
-
-      navigate('/');
+        navigate("/");
 
         return dispatch({
           type: ACTIONS.UPDATE_FOLDER,
@@ -121,6 +126,28 @@ export default function useFolder(folderId = null, folder = null) {
         type: ACTIONS.SET_CHILD_FOLDERS,
         payload: {
           childFolders,
+        },
+      });
+    });
+  }, [folderId, currentUser]);
+
+  useEffect(() => {
+    // create a query
+    const q = query(
+      db.files,
+      where("folderId", "==", folderId),
+      where("userId", "==", currentUser.uid),
+      orderBy("createdAt")
+    );
+
+    return onSnapshot(q, (snapshot) => {
+      const childFiles = [];
+      snapshot.forEach((doc) => childFiles.push(db.formatDoc(doc)));
+
+      dispatch({
+        type: ACTIONS.SET_CHILD_FILES,
+        payload: {
+          childFiles,
         },
       });
     });
