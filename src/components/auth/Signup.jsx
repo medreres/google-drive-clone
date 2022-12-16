@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Card, Form, Button, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import CenteredContainer from "./CenteredContainer";
 
@@ -11,6 +11,7 @@ const Signup = () => {
   const { signup, currentUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,6 +23,8 @@ const Signup = () => {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
+      navigate('/login');
+      
     } catch (error) {
       console.log(error);
       setError("Failed to create and account");

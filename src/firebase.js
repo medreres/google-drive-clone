@@ -10,6 +10,10 @@ import {
   getFirestore,
   serverTimestamp
 } from "firebase/firestore";
+import 'firebase/storage'
+import {
+  getStorage
+} from "firebase/storage";
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -31,8 +35,14 @@ export const db = {
   formatDoc: doc => ({
     id: doc.id,
     ...doc.data()
-  })
+  }),
+  addFile,
+  addFolder
 };
+
+export const storage = getStorage(app);
+
+
 
 /**
  * @param {string} name string name of folder,
@@ -41,11 +51,20 @@ export const db = {
  * @param {string} path path of folder,
  * @param {time} createdAt time the folder was created,
  */
-export function addFolder(props) {
+function addFolder(props) {
   addDoc(db.folders, {
     ...props,
     createdAt: serverTimestamp(),
   });
+}
+
+
+
+function addFile(props) {
+  addDoc(db.files, {
+    ...props,
+    createdAt: serverTimestamp(),
+  })
 }
 
 export default app;

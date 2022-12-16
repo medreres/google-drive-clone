@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Card, Form, Button, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import CenteredContainer from "./CenteredContainer";
-
 
 const Login = () => {
   const emailRef = useRef();
@@ -16,12 +15,11 @@ const Login = () => {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    
     try {
       setError("");
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.log(error);
       setError("Failed to sign in");
@@ -29,6 +27,12 @@ const Login = () => {
 
     setLoading(false);
   }
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <CenteredContainer>
@@ -43,20 +47,24 @@ const Login = () => {
             </Form.Group>
             <Form.Group id="password">
               <Form.Label>Password</Form.Label>
-              <Form.Control autoComplete="on" ref={passwordRef} type="password" />
+              <Form.Control
+                autoComplete="on"
+                ref={passwordRef}
+                type="password"
+              />
             </Form.Group>
-            
+
             <Button disabled={loading} type="submit" className="w-100 mt-3">
               Log In
             </Button>
           </Form>
           <div className="w-100 text-center mt-3">
-              <Link to='/forgot-password'>Forgot password?</Link>
+            <Link to="/forgot-password">Forgot password?</Link>
           </div>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Need an account? <Link to='/signup'>Sign Up</Link>
+        Need an account? <Link to="/signup">Sign Up</Link>
       </div>
     </CenteredContainer>
   );

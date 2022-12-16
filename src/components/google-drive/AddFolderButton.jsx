@@ -2,9 +2,9 @@ import { Button, Form, Modal } from "react-bootstrap";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderPlus } from "@fortawesome/free-solid-svg-icons";
-import { addFolder, db } from "../../firebase";
 import { useAuth } from "../../context/AuthContext";
-import { serverTimestamp } from "firebase/firestore";
+import { ROOT_FOLDER } from "../../hooks/useFolder";
+import { db } from "../../firebase";
 
 export default function AddFolderButton({ currentFolder }) {
   const [open, setOpen] = useState(false);
@@ -19,12 +19,23 @@ export default function AddFolderButton({ currentFolder }) {
 
     if (currentFolder === null) return;
 
+    const path = [...currentFolder.path];
+
+    if (currentFolder !== ROOT_FOLDER) {
+      if (currentFolder !== ROOT_FOLDER) {
+        path.push({
+          name: currentFolder.name,
+          id: currentFolder.id,
+        });
+      }
+    }
+
     // create a folder in the database
-    addFolder({
+    db.addFolder({
       name,
       parentId: currentFolder.id,
       userId: currentUser.uid,
-      path: "",
+      path: path,
     });
     setName("");
     toggleModal();
@@ -32,7 +43,7 @@ export default function AddFolderButton({ currentFolder }) {
 
   return (
     <>
-      <Button onClick={toggleModal} variant="outline-success" className="mb-2">
+      <Button onClick={toggleModal} variant="outline-success">
         <FontAwesomeIcon icon={faFolderPlus} />
       </Button>
       <Modal show={open} onHide={toggleModal}>

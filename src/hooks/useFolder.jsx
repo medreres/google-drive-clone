@@ -8,6 +8,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect, useReducer } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 
@@ -17,7 +18,7 @@ const ACTIONS = {
   SET_CHILD_FOLDERS: "setChildFolders",
 };
 
-const ROOT_FOLDER = {
+export const ROOT_FOLDER = {
   name: "root",
   id: null,
   path: [],
@@ -51,6 +52,8 @@ function reducer(state, { type, payload }) {
 
 export default function useFolder(folderId = null, folder = null) {
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
   const [state, dispatch] = useReducer(reducer, {
     folderId,
     folder,
@@ -89,6 +92,9 @@ export default function useFolder(folderId = null, folder = null) {
         });
       })
       .catch((err) => {
+
+      navigate('/');
+
         return dispatch({
           type: ACTIONS.UPDATE_FOLDER,
           payload: {

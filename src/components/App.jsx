@@ -1,9 +1,8 @@
 import React from "react";
-import { Container } from "react-bootstrap";
 import AuthProvider from "../context/AuthContext";
 import Signup from "./auth/Signup";
 
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./auth/Profile";
 import Login from "./auth/Login";
 import PrivateRoute from "./auth/PrivateRoute";
@@ -18,6 +17,14 @@ const App = () => {
           {/* Drive */}
           <Route
             path="/"
+            element={
+              <PrivateRoute>
+                <DashboardDrive />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/folders/:folderId"
             element={
               <PrivateRoute>
                 <DashboardDrive />
