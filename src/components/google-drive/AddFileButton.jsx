@@ -118,7 +118,6 @@ export default function AddFileButton({ currentFolder }) {
     );
   }
 
-  console.log(uploadingFiles);
 
   return (
     <>
