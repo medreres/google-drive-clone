@@ -2,7 +2,7 @@ import React from "react";
 import AuthProvider from "../context/AuthContext";
 import Signup from "./auth/Signup";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./auth/Profile";
 import Login from "./auth/Login";
 import PrivateRoute from "./auth/PrivateRoute";
@@ -54,7 +54,17 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          {/* <Route path="/*" element={<Navigate to="/" />} /> */}
+
+          {/* helpers */}
+          <Route
+            path="/not-found"
+            element={
+              <PrivateRoute>
+                <DashboardDrive notFound={true} />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/*" element={<Navigate to="/not-found" />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
