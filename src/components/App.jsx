@@ -1,6 +1,7 @@
 import React from "react";
 import AuthProvider from "../context/AuthContext";
 import Signup from "./auth/Signup";
+import './App.css'
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./auth/Profile";

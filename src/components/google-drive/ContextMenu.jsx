@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "./ContextMenu.module.css";
 
-export default function ContextMenu({ show, x, y, ...props }) {
+export default function ContextMenu({ show, x, y, path, file, ...props }) {
   return (
     <div
       className={`${styles.wrapper} ${show ? styles.visible : styles.hidden}`}
@@ -14,12 +15,22 @@ export default function ContextMenu({ show, x, y, ...props }) {
       <div className={`${styles.content}`}>
         <ul className={`${styles.menu}`}>
           <li className={`${styles.item}`}>
-            <i className={`uil uil-eye`}></i>
-            <span>Preview</span>
-          </li>
-          <li className={`${styles.item}`}>
-            <i className={`uil uil-share`}></i>
-            <span>Share</span>
+            {file && (
+              <a target="_blank" href={path} rel="noreferrer">
+                <i className={`uil uil-eye`}></i>
+                <span>Preview</span>
+              </a>
+            )}
+            {!file && (
+              <Link target={"_blank"} to={path}
+              onClick={e => {
+                  console.log('clicked')
+              }}
+              >
+                <i className={`uil uil-eye`}></i>
+                <span>Preview</span>
+              </Link>
+            )}
           </li>
           <li className={`${styles.item}`}>
             <i className={`uil uil-link-alt`}></i>
@@ -34,12 +45,6 @@ export default function ContextMenu({ show, x, y, ...props }) {
             <span>Delete</span>
           </li>
         </ul>
-        <div className={`${styles.setting}`}>
-          <li className={`${styles.item}`}>
-            <i className={`uil uil-setting`}></i>
-            <span>Settings</span>
-          </li>
-        </div>
       </div>
     </div>
   );

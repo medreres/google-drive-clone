@@ -4,34 +4,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
 import ContextMenu from "./ContextMenu";
+import useContextMenu from "../../hooks/useContextMenu";
 
 export default function Folder({ folder }) {
-  const [showContextMenu, setShowContextMenu] = useState(false);
-
-  const toggleContextmenu = (e) => {
-    // stop from showing the context menu
-    if (e) e.preventDefault();
-
-    // toggle custom context menu
-    setShowContextMenu((prevState) => !prevState);
-  };
-
-  useEffect(() => {
-    if (showContextMenu !== true) return;
-
-    document.body.addEventListener("click", toggleContextmenu);
-
-    return () => {
-      document.body.removeEventListener("click", toggleContextmenu);
-    };
-  }, [showContextMenu]);
+  const [showContextMenu, toggleContextmenu] = useContextMenu();
+  const folderPath = `/folders/${folder.id}`;
 
   return (
     <>
       <Button
         onContextMenu={toggleContextmenu}
         to={{
-          pathname: `/folders/${folder.id}`,
+          pathname: folderPath,
           state: { folder },
         }}
         variant="outline-dark"
@@ -40,7 +24,7 @@ export default function Folder({ folder }) {
       >
         <FontAwesomeIcon icon={faFolder} /> {folder.name}
       </Button>
-      <ContextMenu show={showContextMenu} />
+      <ContextMenu show={showContextMenu} path={folderPath} />
     </>
   );
 }
