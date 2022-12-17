@@ -1,5 +1,7 @@
 .wrapper {
 
+    --animation-duration: .2s;
+
     z-index: 1;
 
     position: absolute;
@@ -10,6 +12,8 @@
 
     font-family: 'Poppins', sans-serif;
 
+    transition: opacity var(--animation-duration), visibility var(--animation-duration);
+
 }
 
 .wrapper .menu {
@@ -18,9 +22,11 @@
 
 .visible {
     visibility: visible;
+    opacity: 1;
 }
 
 .hidden {
+    opacity: 0;
     visibility: hidden;
 }
 

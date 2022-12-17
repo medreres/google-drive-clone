@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 
 export default function useContextMenu() {
   const [showContextMenu, setShowContextMenu] = useState(false);
 
-  const toggleContextmenu = (e) => {
+  const toggleContextmenu = (e, state) => {
     // stop from showing the context menu
     e.preventDefault();
+
+    // if state provided, set the current state
+    if (state) return setShowContextMenu(state);
 
     // toggle custom context menu
     setShowContextMenu((prevState) => !prevState);
@@ -15,9 +18,8 @@ export default function useContextMenu() {
     if (showContextMenu !== true) return;
 
     const contextMenuToggler = (e) => {
-      setTimeout(() => {
-        toggleContextmenu(e);
-      }, 100);
+
+      toggleContextmenu(e);
     };
 
     document.body.addEventListener("mousedown", contextMenuToggler);
