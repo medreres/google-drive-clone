@@ -8,6 +8,7 @@ import useContextMenu from "../../hooks/useContextMenu";
 
 export default function Folder({ folder }) {
   const [showContextMenu, toggleContextmenu] = useContextMenu();
+  
   const folderPath = `/folders/${folder.id}`;
 
   return (

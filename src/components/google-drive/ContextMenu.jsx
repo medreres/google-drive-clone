@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { db } from "../../firebase";
 import styles from "./ContextMenu.module.css";
 
-export default function ContextMenu({ show, x, y, path, file, ...props }) {
+export default function ContextMenu({ show, x, y, url, path, urlRef, id, file, ...props }) {
   function copyToClipboard(path) {
     navigator.clipboard.writeText(path);
   }
@@ -19,7 +20,7 @@ export default function ContextMenu({ show, x, y, path, file, ...props }) {
         <ul className={`${styles.menu}`}>
           <li className={`${styles.item}`}>
             {file && (
-              <a className="w-100" target="_blank" href={path} rel="noreferrer">
+              <a className="w-100" target="_blank" href={url} rel="noreferrer">
                 <i className={`uil uil-eye`}></i>
                 <span>Preview</span>
               </a>
@@ -28,7 +29,7 @@ export default function ContextMenu({ show, x, y, path, file, ...props }) {
               <Link
                 className="w-100"
                 target={"_blank"}
-                to={path}
+                to={url}
                 onClick={(e) => {
                   console.log("clicked");
                 }}
@@ -40,7 +41,7 @@ export default function ContextMenu({ show, x, y, path, file, ...props }) {
           </li>
           <li
             className={`${styles.item}`}
-            onClick={() => copyToClipboard(path)}
+            onClick={() => copyToClipboard(url)}
           >
             <i className={`uil uil-link-alt`}></i>
             <span>Get Link</span>
@@ -49,7 +50,9 @@ export default function ContextMenu({ show, x, y, path, file, ...props }) {
             <i className={`uil uil-edit`}></i>
             <span>Rename</span>
           </li>
-          <li className={`${styles.item} text-danger`}>
+          <li className={`${styles.item} text-danger`} onClick={() => {
+            db.deleteFile(path, id)
+          }}>
             <i className={`uil uil-trash-alt`}></i>
             <span>Delete</span>
           </li>

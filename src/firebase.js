@@ -7,12 +7,20 @@ import {
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
   getFirestore,
-  serverTimestamp
+  query,
+  serverTimestamp,
+  where,
 } from "firebase/firestore";
 import 'firebase/storage'
 import {
-  getStorage
+  deleteObject,
+  getStorage,
+  ref
 } from "firebase/storage";
 
 const app = initializeApp({
@@ -37,12 +45,11 @@ export const db = {
     ...doc.data()
   }),
   addFile,
-  addFolder
+  addFolder,
+  deleteFile
 };
 
 export const storage = getStorage(app);
-
-
 
 /**
  * @param {string} name string name of folder,
@@ -58,13 +65,27 @@ function addFolder(props) {
   });
 }
 
-
-
 function addFile(props) {
   addDoc(db.files, {
     ...props,
     createdAt: serverTimestamp(),
   })
+}
+
+async function deleteFile(path, id) {
+  // delete doc from firestore
+  const q = query(db.files, where('id', '==', id));
+  getDocs(q).then(docs => {
+    docs.forEach(doc => {
+      deleteDoc(doc.ref);
+      // delete file form storage
+      const fileRef = ref(storage, path);
+      deleteObject(fileRef)
+    })
+
+  })
+
+
 }
 
 export default app;

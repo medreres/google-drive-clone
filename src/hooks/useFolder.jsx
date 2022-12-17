@@ -1,14 +1,13 @@
 import {
   doc,
   getDoc,
-  getDocs,
   onSnapshot,
   orderBy,
   query,
   where,
 } from "firebase/firestore";
 import { useEffect, useReducer } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 
@@ -107,7 +106,7 @@ export default function useFolder(folderId = null, folder = null) {
           },
         });
       });
-  }, [folderId]);
+  }, [folderId, navigate]);
 
   useEffect(() => {
     // create a query

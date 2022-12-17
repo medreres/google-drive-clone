@@ -5,11 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   getDownloadURL,
   ref,
-  uploadBytes,
   uploadBytesResumable,
 } from "firebase/storage";
 import React, { useState } from "react";
-import { ListGroupItem, ProgressBar, Toast } from "react-bootstrap";
+import { ProgressBar, Toast } from "react-bootstrap";
 import { useAuth } from "../../context/AuthContext";
 import { db, storage } from "../../firebase";
 import { ROOT_FOLDER } from "../../hooks/useFolder";
@@ -103,10 +102,12 @@ export default function AddFileButton({ currentFolder }) {
                 });
               } else {
                 db.addFile({
+                  id: uuidv4(),
                   url,
                   name: file.name,
                   folderId: currentFolder.id,
                   userId: currentUser.uid,
+                  path: refPath,
                 });
               }
             })
@@ -117,7 +118,6 @@ export default function AddFileButton({ currentFolder }) {
       }
     );
   }
-
 
   return (
     <>

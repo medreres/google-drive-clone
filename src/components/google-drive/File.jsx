@@ -19,7 +19,7 @@ export default function File({ file }) {
         <FontAwesomeIcon icon={faFile} className="me-2" />
         {file.name}
       </a>
-      <ContextMenu file={true} show={showContextMenu} path={file.url} />
+      <ContextMenu file={true} show={showContextMenu} url={file.url} path={file.path} id={file.id} />
     </>
   );
 }
