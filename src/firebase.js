@@ -8,8 +8,6 @@ import {
   addDoc,
   collection,
   deleteDoc,
-  doc,
-  getDoc,
   getDocs,
   getFirestore,
   query,
@@ -20,8 +18,12 @@ import 'firebase/storage'
 import {
   deleteObject,
   getStorage,
+  listAll,
   ref
 } from "firebase/storage";
+import {
+  useAuth
+} from "./context/AuthContext";
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -46,7 +48,8 @@ export const db = {
   }),
   addFile,
   addFolder,
-  deleteFile
+  deleteFile,
+  deleteFolder
 };
 
 export const storage = getStorage(app);
@@ -85,6 +88,14 @@ async function deleteFile(path, id) {
 
   })
 
+
+}
+
+function deleteFolder(path, userId) {
+  const listRef = ref(storage, `files/${userId}`)
+  listAll(listRef).then(docs => {
+    console.log(docs)
+  })
 
 }
 

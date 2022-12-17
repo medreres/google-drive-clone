@@ -8,7 +8,7 @@ import useContextMenu from "../../hooks/useContextMenu";
 
 export default function Folder({ folder }) {
   const [showContextMenu, toggleContextmenu] = useContextMenu();
-  
+
   const folderPath = `/folders/${folder.id}`;
 
   return (
@@ -25,7 +25,7 @@ export default function Folder({ folder }) {
       >
         <FontAwesomeIcon icon={faFolder} /> {folder.name}
       </Button>
-      <ContextMenu show={showContextMenu} path={folderPath} />
+      <ContextMenu url={folderPath} show={showContextMenu} path={folderPath} />
     </>
   );
 }
