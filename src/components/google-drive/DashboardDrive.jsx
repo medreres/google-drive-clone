@@ -8,11 +8,59 @@ import { useParams, useLocation, Link } from "react-router-dom";
 import FolderBreadCrumbs from "./FolderBreadCrumbs";
 import AddFileButton from "./AddFileButton";
 import File from "./File";
+import FilePlaceholder from "./FilePlaceholder";
+import FolderPlaceholder from "./FolderPlaceholder";
 
 export default function Dashboard({ notFound }) {
   const { folderId } = useParams();
   const { state = {} } = useLocation();
-  const { folder, childFolders, childFiles } = useFolder(folderId);
+  const { folder, childFolders, childFiles, isLoadingFolders, isLoadingFiles } =
+    useFolder(folderId);
+
+  // isLoadingFolders
+  const folders = isLoadingFolders ? (
+    [...Array(5).keys()].map((i) => <FolderPlaceholder key={i} />)
+  ) : (
+    <>
+      {childFolders.length > 0 && (
+        <>
+          {childFolders.map((folder, index) => (
+            <div
+              key={folder.id}
+              style={{
+                maxWidth: "250px",
+                margin: "5px",
+              }}
+            >
+              <Folder folder={folder} />
+            </div>
+          ))}
+        </>
+      )}
+    </>
+  );
+  // isLoadingFiles
+  const files = isLoadingFiles ? (
+    [...Array(5).keys()].map((i) => <FilePlaceholder key={i} />)
+  ) : (
+    <>
+      {childFiles.length > 0 && (
+        <>
+          {childFiles.map((file, index) => (
+            <div
+              key={file.id}
+              style={{
+                maxWidth: "250px",
+                margin: "5px",
+              }}
+            >
+              <File file={file} />
+            </div>
+          ))}
+        </>
+      )}
+    </>
+  );
 
   if (notFound) {
     return (
@@ -47,40 +95,13 @@ export default function Dashboard({ notFound }) {
           <AddFolderButton currentFolder={folder} />
         </div>
         {/* Rendering folders */}
-        {childFolders.length > 0 && (
-          <div className="d-flex flex-wrap">
-            {childFolders.map((folder, index) => (
-              <div
-                key={folder.id}
-                style={{
-                  maxWidth: "250px",
-                  margin: "5px",
-                }}
-              >
-                <Folder folder={folder} />
-              </div>
-            ))}
-          </div>
-        )}
+        <div className="d-flex flex-wrap">{folders}</div>
 
         {childFiles.length > 0 && childFolders.length > 0 && <hr />}
+        {isLoadingFiles && isLoadingFolders && <hr />}
 
         {/* Rendering files */}
-        {childFiles.length > 0 && (
-          <div className="d-flex flex-wrap">
-            {childFiles.map((file, index) => (
-              <div
-                key={file.id}
-                style={{
-                  maxWidth: "250px",
-                  margin: "5px",
-                }}
-              >
-                <File file={file} />
-              </div>
-            ))}
-          </div>
-        )}
+        <div className="d-flex flex-wrap">{files}</div>
       </Container>
     </>
   );

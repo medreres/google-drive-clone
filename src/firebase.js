@@ -52,7 +52,8 @@ export const db = {
   addFolder,
   deleteFile,
   deleteFolder,
-  changeFileName
+  changeFileName,
+  changeFolderName
 };
 
 export const storage = getStorage(app);
@@ -116,7 +117,26 @@ function changeFileName(id, newName) {
       })
     })
   });
- 
+
+}
+
+
+function changeFolderName(id, newName) {
+
+  // get ref of doc in database
+  const q = query(db.folders,
+    where('folderIdFB', '==', id),
+    limit(1));
+
+  getDocs(q).then(docs => {
+    console.log(docs)
+    docs.forEach(doc => {
+      updateDoc(doc.ref, {
+        name: newName
+      })
+    })
+  });
+
 }
 
 export default app;

@@ -6,7 +6,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
@@ -25,6 +25,8 @@ export const ROOT_FOLDER = {
 };
 
 function reducer(state, { type, payload }) {
+  // console.log(state)
+  // console.log(type)
   switch (type) {
     case ACTIONS.SELECT_FOLDER:
       return {
@@ -32,24 +34,30 @@ function reducer(state, { type, payload }) {
         folder: payload.folder,
         childFolders: [],
         childFiles: [],
+        isLoadingFiles: true,
+        isLoadingFolders: true,
       };
 
     case ACTIONS.UPDATE_FOLDER:
       return {
         ...state,
         folder: payload.folder,
+        isLoadingFolders: true,
       };
 
     case ACTIONS.SET_CHILD_FOLDERS:
       return {
         ...state,
         childFolders: payload.childFolders,
+        isLoadingFolders: false,
       };
     case ACTIONS.SET_CHILD_FILES:
       return {
         ...state,
         childFiles: payload.childFiles,
+        isLoadingFiles: false,
       };
+
     default:
       return state;
   }
@@ -58,12 +66,15 @@ function reducer(state, { type, payload }) {
 export default function useFolder(folderId = null, folder = null) {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  // const [isLoading, setIsLoading] = useState(false);
 
   const [state, dispatch] = useReducer(reducer, {
     folderId,
     folder,
     childFolders: [],
     childFiles: [],
+    isLoadingFiles: true,
+    isLoadingFolders: true,
   });
 
   useEffect(() => {

@@ -35,6 +35,7 @@ export default function File({ file }) {
         <Form onSubmit={handleChangeName}>
           <Form.Group>
             <Form.Control
+              autoFocus
               className="border border-dark"
               type="text"
               placeholder="File name"

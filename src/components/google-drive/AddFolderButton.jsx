@@ -1,5 +1,6 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import React, { useState } from "react";
+import { uuidv4 } from "@firebase/util";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderPlus } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../context/AuthContext";
@@ -32,6 +33,7 @@ export default function AddFolderButton({ currentFolder }) {
 
     // create a folder in the database
     db.addFolder({
+      folderIdFB: uuidv4(),
       name,
       parentId: currentFolder.id,
       userId: currentUser.uid,
