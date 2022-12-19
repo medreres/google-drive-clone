@@ -8,6 +8,7 @@ import {
   addDoc,
   collection,
   deleteDoc,
+  getDoc,
   getDocs,
   getFirestore,
   limit,
@@ -69,6 +70,7 @@ export const storage = getStorage(app);
  * @param {time} createdAt time the folder was created,
  */
 function addFolder(props) {
+  console.log(props)
   addDoc(db.folders, {
     ...props,
     createdAt: serverTimestamp(),
@@ -92,10 +94,7 @@ async function deleteFile(path, id) {
       const fileRef = ref(storage, path);
       deleteObject(fileRef)
     })
-
   })
-
-
 }
 
 function deleteFolder(path, userId) {
@@ -103,7 +102,6 @@ function deleteFolder(path, userId) {
   listAll(listRef).then(docs => {
     console.log(docs)
   })
-
 }
 
 
@@ -124,15 +122,17 @@ function changeFileName(id, newName) {
 }
 
 
-function changeFolderName(id, newName) {
+function changeFolderName(id, folderIdFB, oldName, newName) {
 
   // get ref of doc in database
   const q = query(db.folders,
-    where('folderIdFB', '==', id),
+    where('folderIdFB', '==', folderIdFB),
     limit(1));
 
+
+  // change name of folder itself
   getDocs(q).then(docs => {
-    console.log(docs)
+    // console.log(docs)
     docs.forEach(doc => {
       updateDoc(doc.ref, {
         name: newName
@@ -140,6 +140,35 @@ function changeFolderName(id, newName) {
     })
   });
 
+
+  
+  // object which represent path element
+  const folderObj = {
+    id,
+    name: oldName,
+  }
+  
+  const q2 = query(db.folders,
+    where('path', 'array-contains', folderObj))
+    
+    // find objects which has path that contains the folder and rename that too
+    getDocs(q2).then(docs => {
+    docs.forEach(doc => {
+      const path = doc.data().path;
+      const updatedPath = path.map(el => {
+        if (el.id === id)
+          return {
+            id,
+            name: newName
+          }
+        else return el;
+      })
+      updateDoc(doc.ref, {
+        path: updatedPath
+      })
+    })
+  })
 }
+
 
 export default app;

@@ -29,7 +29,7 @@ export default function Folder({ folder }) {
     
 
     // commit changes to db
-    db.changeFolderName(folder.folderIdFB, folderNameChanged);
+    db.changeFolderName(folder.id, folder.folderIdFB, folder.name , folderNameChanged);
   }
 
   if (isEditing)
