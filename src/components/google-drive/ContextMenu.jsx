@@ -12,6 +12,7 @@ export default function ContextMenu({
   urlRef,
   id,
   file,
+  setIsEditing,
   ...props
 }) {
   const [showModal, setShowModal] = useState(false);
@@ -22,7 +23,6 @@ export default function ContextMenu({
 
   const toggleModal = () => setShowModal((prevState) => !prevState);
   const folderUrl = window.location.origin + url;
-
 
   // console.log('url', url)
   // console.log('folderUrl', folderUrl)
@@ -35,6 +35,8 @@ export default function ContextMenu({
     if (file) db.deleteFile(path, id);
     else db.deleteFolder(path, currentUser.uid);
   };
+
+  const toggleEditMode = () => setIsEditing((prevState) => !prevState);
 
   return (
     <>
@@ -56,6 +58,10 @@ export default function ContextMenu({
             >
               <i className={`uil uil-link-alt`}></i>
               <span>Get Link</span>
+            </li>
+            <li className={`${styles.item}`} onClick={toggleEditMode}>
+              <i className={`uil uil-edit`}></i>
+              <span>Rename</span>
             </li>
             <li className={`${styles.item} text-danger`} onClick={toggleModal}>
               <i className={`uil uil-trash-alt`}></i>

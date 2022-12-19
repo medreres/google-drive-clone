@@ -7,7 +7,8 @@ import ContextMenu from "./ContextMenu";
 import useContextMenu from "../../hooks/useContextMenu";
 
 export default function Folder({ folder }) {
-  const [showContextMenu, toggleContextmenu] = useContextMenu();
+  const { showContextMenu, toggleContextmenu, isEditing, setIsEditing } =
+    useContextMenu();
 
   const folderPath = `/folders/${folder.id}`;
 
@@ -23,7 +24,17 @@ export default function Folder({ folder }) {
         className="text-truncate w-100"
         as={Link}
       >
-        <FontAwesomeIcon icon={faFolder} /> {folder.name}
+        {!isEditing && (
+          <>
+            <FontAwesomeIcon icon={faFolder} className='me-2' />
+            {folder.name}
+          </>
+        )}
+        {isEditing && (
+          <>
+            <input type="text" defaultValue={folder.name} />
+          </>
+        )}
       </Button>
       <ContextMenu url={folderPath} show={showContextMenu} path={folderPath} />
     </>

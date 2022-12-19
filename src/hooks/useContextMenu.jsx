@@ -1,7 +1,8 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function useContextMenu() {
   const [showContextMenu, setShowContextMenu] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const toggleContextmenu = (e, state) => {
     // stop from showing the context menu
@@ -18,7 +19,6 @@ export default function useContextMenu() {
     if (showContextMenu !== true) return;
 
     const contextMenuToggler = (e) => {
-
       toggleContextmenu(e);
     };
 
@@ -29,5 +29,5 @@ export default function useContextMenu() {
     };
   }, [showContextMenu]);
 
-  return [showContextMenu, toggleContextmenu];
+  return { showContextMenu, toggleContextmenu, isEditing, setIsEditing };
 }

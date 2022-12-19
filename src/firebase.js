@@ -10,8 +10,10 @@ import {
   deleteDoc,
   getDocs,
   getFirestore,
+  limit,
   query,
   serverTimestamp,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import 'firebase/storage'
@@ -49,7 +51,8 @@ export const db = {
   addFile,
   addFolder,
   deleteFile,
-  deleteFolder
+  deleteFolder,
+  changeFileName
 };
 
 export const storage = getStorage(app);
@@ -97,6 +100,23 @@ function deleteFolder(path, userId) {
     console.log(docs)
   })
 
+}
+
+
+function changeFileName(id, newName) {
+  // get ref of doc in database
+  const q = query(db.files,
+    where('id', '==', id),
+    limit(1));
+
+  getDocs(q).then(docs => {
+    docs.forEach(doc => {
+      updateDoc(doc.ref, {
+        name: newName
+      })
+    })
+  });
+ 
 }
 
 export default app;
