@@ -10,6 +10,7 @@ import AddFileButton from "./AddFileButton";
 import File from "./File";
 import FilePlaceholder from "./FilePlaceholder";
 import FolderPlaceholder from "./FolderPlaceholder";
+import NotFound from "./NotFound";
 
 export default function Dashboard({ notFound }) {
   const { folderId } = useParams();
@@ -64,24 +65,7 @@ export default function Dashboard({ notFound }) {
 
   if (notFound) {
     return (
-      <>
-        <NavbarComponent />
-        <Stack
-          style={{
-            maxWidth: "50vw",
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginTop: "20%",
-          }}
-        >
-          <div className="text-center">
-            <h2>Not Found</h2>
-          </div>
-          <Link to="/">
-            <span className="btn btn-primary w-100 mt-2">Go Home</span>
-          </Link>
-        </Stack>
-      </>
+      <NotFound />
     );
   }
 
