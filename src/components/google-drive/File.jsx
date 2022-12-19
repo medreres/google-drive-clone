@@ -1,7 +1,7 @@
 import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { db } from "../../firebase";
 import useContextMenu from "../../hooks/useContextMenu";
 import ContextMenu from "./ContextMenu";
@@ -23,23 +23,28 @@ export default function File({ file }) {
     // if file name wasnt changed
     if (fileNameChanged === file.name) return;
 
+    const fileExtension = file.name.slice(file.name.lastIndexOf("."));
+
     // commit changes to db
-    db.changeFileName(file.id, fileNameChanged);
-    
+    db.changeFileName(file.id, fileNameChanged + fileExtension);
   }
   if (isEditing) {
     return (
       <>
         {/* accesebility */}
         <Form onSubmit={handleChangeName}>
-          <input type="text" defaultValue={file.name} ref={fileNameRef} />
-          <input
-            type="submit"
-            style={{
-              position: "absolute",
-              left: "-100vw",
-            }}
-          />
+          <Form.Group>
+            <Form.Control
+              className="border border-dark"
+              type="text"
+              placeholder="File name"
+              defaultValue={file.name.slice(0, file.name.indexOf("."))}
+              ref={fileNameRef}
+            />
+          </Form.Group>
+          <Button type="submit" hidden>
+            Submit
+          </Button>
         </Form>
       </>
     );
