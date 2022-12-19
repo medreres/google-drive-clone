@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { db } from "../../firebase";
+import getIcon from "../../helpers/getIcon";
 import useContextMenu from "../../hooks/useContextMenu";
 import ContextMenu from "./ContextMenu";
 
@@ -10,6 +11,8 @@ export default function File({ file }) {
   const { showContextMenu, toggleContextmenu, isEditing, setIsEditing } =
     useContextMenu();
   const fileNameRef = useRef();
+  const extension = file.name.slice(file.name.lastIndexOf('.') + 1);
+  const icon = getIcon(extension);
 
   function handleChangeName(e) {
     e.preventDefault();
@@ -60,7 +63,7 @@ export default function File({ file }) {
           //   rel="noreferrer"
           className="btn btn-outline-dark text-truncate w-100"
         >
-          <FontAwesomeIcon icon={faFile} className="me-2" />
+          <FontAwesomeIcon icon={icon} className="me-2" />
           {file.name}
         </a>
         <ContextMenu

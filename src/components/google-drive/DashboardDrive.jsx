@@ -19,7 +19,7 @@ export default function Dashboard({ notFound }) {
 
   // isLoadingFolders
   const folders = isLoadingFolders ? (
-    [...Array(5).keys()].map((i) => <FolderPlaceholder key={i} />)
+    [...Array(3).keys()].map((i) => <FolderPlaceholder key={i} />)
   ) : (
     <>
       {childFolders.length > 0 && (
@@ -41,7 +41,7 @@ export default function Dashboard({ notFound }) {
   );
   // isLoadingFiles
   const files = isLoadingFiles ? (
-    [...Array(5).keys()].map((i) => <FilePlaceholder key={i} />)
+    [...Array(2).keys()].map((i) => <FilePlaceholder key={i} />)
   ) : (
     <>
       {childFiles.length > 0 && (
