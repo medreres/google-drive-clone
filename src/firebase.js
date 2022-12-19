@@ -56,7 +56,10 @@ export const db = {
   changeFolderName
 };
 
+
 export const storage = getStorage(app);
+
+
 
 /**
  * @param {string} name string name of folder,
