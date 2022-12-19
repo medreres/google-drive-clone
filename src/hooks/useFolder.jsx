@@ -6,7 +6,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
@@ -66,7 +66,6 @@ function reducer(state, { type, payload }) {
 export default function useFolder(folderId = null, folder = null) {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  // const [isLoading, setIsLoading] = useState(false);
 
   const [state, dispatch] = useReducer(reducer, {
     folderId,
@@ -77,6 +76,7 @@ export default function useFolder(folderId = null, folder = null) {
     isLoadingFolders: true,
   });
 
+  // select folder
   useEffect(() => {
     dispatch({
       type: ACTIONS.SELECT_FOLDER,
@@ -87,6 +87,8 @@ export default function useFolder(folderId = null, folder = null) {
     });
   }, [folderId, folder]);
 
+
+  // update folder
   useEffect(() => {
     if (folderId === null) {
       return dispatch({
@@ -97,70 +99,86 @@ export default function useFolder(folderId = null, folder = null) {
       });
     }
 
-    const docRef = doc(db.folders, folderId);
-    getDoc(docRef)
-      .then((d) => {
-        return dispatch({
-          type: ACTIONS.UPDATE_FOLDER,
-          payload: {
-            folder: db.formatDoc(d),
-          },
-        });
-      })
-      .catch((err) => {
-        navigate("/");
+    try {
+      const docRef = doc(db.folders, folderId);
+      getDoc(docRef)
+        .then((d) => {
+          return dispatch({
+            type: ACTIONS.UPDATE_FOLDER,
+            payload: {
+              folder: db.formatDoc(d),
+            },
+          });
+        })
+        .catch((err) => {
+          navigate("/");
 
-        return dispatch({
-          type: ACTIONS.UPDATE_FOLDER,
-          payload: {
-            folder: ROOT_FOLDER,
-          },
+          return dispatch({
+            type: ACTIONS.UPDATE_FOLDER,
+            payload: {
+              folder: ROOT_FOLDER,
+            },
+          });
         });
-      });
+    } catch (error) {
+      console.log(error);
+    }
   }, [folderId, navigate]);
 
+
+  // update child folders
   useEffect(() => {
     // create a query
-    const q = query(
-      db.folders,
-      where("parentId", "==", folderId),
-      where("userId", "==", currentUser.uid),
-      orderBy("createdAt")
-    );
 
-    return onSnapshot(q, (snapshot) => {
-      const childFolders = [];
-      snapshot.forEach((doc) => childFolders.push(db.formatDoc(doc)));
+    try {
+      const q = query(
+        db.folders,
+        where("parentId", "==", folderId),
+        where("userId", "==", currentUser.uid),
+        orderBy("createdAt")
+      );
+      return onSnapshot(q, (snapshot) => {
+        const childFolders = [];
+        snapshot.forEach((doc) => childFolders.push(db.formatDoc(doc)));
 
-      dispatch({
-        type: ACTIONS.SET_CHILD_FOLDERS,
-        payload: {
-          childFolders,
-        },
+        dispatch({
+          type: ACTIONS.SET_CHILD_FOLDERS,
+          payload: {
+            childFolders,
+          },
+        });
       });
-    });
+    } catch (error) {
+      console.log(error);
+    }
   }, [folderId, currentUser]);
 
+
+  // update child files
   useEffect(() => {
     // create a query
-    const q = query(
-      db.files,
-      where("folderId", "==", folderId),
-      where("userId", "==", currentUser.uid),
-      orderBy("createdAt")
-    );
 
-    return onSnapshot(q, (snapshot) => {
-      const childFiles = [];
-      snapshot.forEach((doc) => childFiles.push(db.formatDoc(doc)));
+    try {
+      const q = query(
+        db.files,
+        where("folderId", "==", folderId),
+        where("userId", "==", currentUser.uid),
+        orderBy("createdAt")
+      );
+      return onSnapshot(q, (snapshot) => {
+        const childFiles = [];
+        snapshot.forEach((doc) => childFiles.push(db.formatDoc(doc)));
 
-      dispatch({
-        type: ACTIONS.SET_CHILD_FILES,
-        payload: {
-          childFiles,
-        },
+        dispatch({
+          type: ACTIONS.SET_CHILD_FILES,
+          payload: {
+            childFiles,
+          },
+        });
       });
-    });
+    } catch (error) {
+      console.log(error);
+    }
   }, [folderId, currentUser]);
 
   return state;

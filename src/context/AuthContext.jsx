@@ -9,6 +9,7 @@ import {
   updateEmail as updateEmailFb,
   updatePassword as updatePasswordFb,
 } from "firebase/auth";
+import LoadingSpinner from "../components/google-drive/LoadingSpinner";
 
 const AuthContext = React.createContext();
 
@@ -70,7 +71,11 @@ export default function AuthProvider({ children }) {
   };
   return (
     <AuthContext.Provider value={value}>
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <>
+          <LoadingSpinner />
+        </>
+      )}
       {!loading && children}
     </AuthContext.Provider>
   );

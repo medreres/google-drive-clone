@@ -1,0 +1,19 @@
+.spinner {
+    height: 200px;
+    width: 200px;
+    border: 10px solid #EAF0F6;
+    border-top: 10px solid #1A8754;
+    border-radius: 50%;
+    animation: spinner 4s linear infinite;
+    margin: calc(50vh - 100px) auto;
+    box-shadow: 0 0 14px #212529;
+
+}
+
+@keyframes spinner {
+    from {
+        rotate: 0deg;
+    } to {
+        rotate: 360deg;
+    }
+}

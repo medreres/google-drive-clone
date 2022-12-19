@@ -54,6 +54,7 @@ export default function AddFolderButton({ currentFolder }) {
             <Form.Group>
               <Form.Label>Folder Name</Form.Label>
               <Form.Control
+                autoFocus
                 type="text"
                 placeholder="Folder Name"
                 required

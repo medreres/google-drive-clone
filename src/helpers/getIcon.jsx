@@ -10,7 +10,6 @@ import {
 import React from "react";
 
 export default function getIcon(extension) {
-  console.log(extension);
   switch (extension) {
     case "pdf":
       return faFilePdf;
