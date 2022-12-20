@@ -8,7 +8,6 @@ import {
   addDoc,
   collection,
   deleteDoc,
-  getDoc,
   getDocs,
   getFirestore,
   limit,
@@ -24,9 +23,7 @@ import {
   listAll,
   ref
 } from "firebase/storage";
-import {
-  useAuth
-} from "./context/AuthContext";
+
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,

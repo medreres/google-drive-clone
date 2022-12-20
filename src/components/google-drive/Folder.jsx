@@ -5,7 +5,7 @@ import { faFolder } from "@fortawesome/free-solid-svg-icons";
 import { Button, Form } from "react-bootstrap";
 import ContextMenu from "./ContextMenu";
 import useContextMenu from "../../hooks/useContextMenu";
-import { db } from "../../firebase";
+import { db } from "../../utils/firebase";
 
 export default function Folder({ folder }) {
   const { showContextMenu, toggleContextmenu, isEditing, setIsEditing } =

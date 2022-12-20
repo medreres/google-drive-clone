@@ -10,9 +10,9 @@ import {
 import React, { useState } from "react";
 import { ProgressBar, Toast } from "react-bootstrap";
 import { useAuth } from "../../context/AuthContext";
-import { db, storage } from "../../firebase";
 import { ROOT_FOLDER } from "../../hooks/useFolder";
 import { getDocs, query, updateDoc, where } from "firebase/firestore";
+import { db, storage } from "../../utils/firebase";
 
 export default function AddFileButton({ currentFolder }) {
   const [uploadingFiles, setUploadingFiles] = useState([]);
@@ -118,6 +118,7 @@ export default function AddFileButton({ currentFolder }) {
       }
     );
   }
+
 
   return (
     <>

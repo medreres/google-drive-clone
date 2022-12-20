@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
-import AuthProvider from "../context/AuthContext";
-import Signup from "./auth/Signup";
-import "./App.css";
-
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Dashboard from "./auth/Profile";
-import Login from "./auth/Login";
-import PrivateRoute from "./auth/PrivateRoute";
-import ForgotPassword from "./auth/ForgotPassword";
-import UpdateProfile from "./auth/UpdateProfile";
-import DashboardDrive from "./google-drive/DashboardDrive";
+import PrivateRoute from "./components/auth/PrivateRoute";
+import AuthProvider from "./context/AuthContext";
+import DashboardDrive from "./components/google-drive/DashboardDrive";
+import Dashboard from "./components/google-drive/DashboardDrive";
+import UpdateProfile from "./components/auth/UpdateProfile";
+import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
+import ForgotPassword from "./components/auth/ForgotPassword";
+
 const App = () => {
   return (
     <BrowserRouter>

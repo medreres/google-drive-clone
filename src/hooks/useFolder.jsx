@@ -9,7 +9,7 @@ import {
 import { useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { db } from "../firebase";
+import { db } from "../utils/firebase";
 
 const ACTIONS = {
   SELECT_FOLDER: "selectFolder",

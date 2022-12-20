@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { Link } from "react-router-dom";
+
 import { useAuth } from "../../context/AuthContext";
-import { db } from "../../firebase";
+import { db } from "../../utils/firebase";
 import styles from "./ContextMenu.module.css";
 
 export default function ContextMenu({

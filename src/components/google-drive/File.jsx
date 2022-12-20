@@ -1,9 +1,8 @@
-import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
-import { db } from "../../firebase";
-import getIcon from "../../helpers/getIcon";
+import { db } from "../../utils/firebase";
+import getIcon from "../../utils/getIcon";
 import useContextMenu from "../../hooks/useContextMenu";
 import ContextMenu from "./ContextMenu";
 
@@ -11,7 +10,7 @@ export default function File({ file }) {
   const { showContextMenu, toggleContextmenu, isEditing, setIsEditing } =
     useContextMenu();
   const fileNameRef = useRef();
-  const extension = file.name.slice(file.name.lastIndexOf('.') + 1);
+  const extension = file.name.slice(file.name.lastIndexOf(".") + 1);
   const icon = getIcon(extension);
 
   function handleChangeName(e) {
