@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import AuthProvider from "./context/AuthContext";
 import DashboardDrive from "./components/google-drive/DashboardDrive";
-import Dashboard from "./components/google-drive/DashboardDrive";
+import Dashboard from "./components/auth/Profile"
 import UpdateProfile from "./components/auth/UpdateProfile";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";

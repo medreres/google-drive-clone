@@ -13,6 +13,7 @@ import FolderPlaceholder from "./FolderPlaceholder";
 import NotFound from "./NotFound";
 
 export default function Dashboard({ notFound }) {
+
   const { folderId } = useParams();
   const { state = {} } = useLocation();
   const { folder, childFolders, childFiles, isLoadingFolders, isLoadingFiles } =
