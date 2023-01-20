@@ -1,12 +1,12 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import PrivateRoute from "./components/auth/PrivateRoute";
-import AuthProvider from "./context/AuthContext";
-import DashboardDrive from "./components/google-drive/DashboardDrive";
-import Dashboard from "./components/auth/Profile"
-import UpdateProfile from "./components/auth/UpdateProfile";
-import Login from "./components/auth/Login";
-import Signup from "./components/auth/Signup";
-import ForgotPassword from "./components/auth/ForgotPassword";
+import AuthProvider from "./shared/context/AuthContext";
+import { PrivateRoute } from "./features/Auth";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+import ForgotPassword from "./pages/ForgotPassword";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import UpdateProfile from "./pages/UpdateProfile";
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
             path="/"
             element={
               <PrivateRoute>
-                <DashboardDrive />
+                <Dashboard />
               </PrivateRoute>
             }
           />
@@ -26,7 +26,7 @@ const App = () => {
             path="/folders/:folderId"
             element={
               <PrivateRoute>
-                <DashboardDrive />
+                <Dashboard />
               </PrivateRoute>
             }
           />
@@ -36,7 +36,7 @@ const App = () => {
             path="/user"
             element={
               <PrivateRoute>
-                <Dashboard />
+                <Profile />
               </PrivateRoute>
             }
           />
@@ -50,20 +50,32 @@ const App = () => {
           />
 
           {/* Auth */}
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/signup"
+            element={<Signup />}
+          />
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+          <Route
+            path="/forgot-password"
+            element={<ForgotPassword />}
+          />
 
           {/* helpers */}
           <Route
             path="/not-found"
             element={
               <PrivateRoute>
-                <DashboardDrive notFound={true} />
+                <Dashboard notFound={true} />
               </PrivateRoute>
             }
           />
-          <Route path="/*" element={<Navigate to="/not-found" />} />
+          <Route
+            path="/*"
+            element={<Navigate to="/not-found" />}
+          />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
