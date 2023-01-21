@@ -1,7 +1,8 @@
 # React Drive
 
-A React.js app with functionality, you'd expect from any online storage: deleting, renaming, adding and sharing files. [Demo verison](https://github.com/medreres/google-drive-clone) to poke around!
-![React Drive](./readme/react%20drive.png)
+![React Drive](./src/assets/react%20drive.png)
+App that resembles Google Drive. You can store your data safely without worrying about privacy.
+React Drive supports many common file formats to represent them with appropriate icons, which provides better user experience. If your are interested, click [here](https://auth-production-a2c5b.web.app/) to poke around!
 
 # Installation
 
@@ -58,10 +59,8 @@ Right click on either file or folder to open the context menu
 - Firebase
 - Font Awesome
 
-
 # Sources
 
 Those sources gave a gread deal of inspiration while developing
 
 - [Web Dev Simplified](https://youtu.be/6XTRElVAZ9Y)
-
