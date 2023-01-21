@@ -28,11 +28,15 @@ A study project to get the grasp of Firebase API, polish off the knowledge of Re
 ## Authentication
 
 Enter your email address and password of your account, if you have one. If not, you can use demo account:
+Email: 
+```
+maxum23025@gmail.com
+```
+Password: 
+```
+maxum320
+```
 
-```
-Email: maxum23025@gmail.com
-Password: maxum320
-```
 
 <img src='./readme/home-page.png' />
 
