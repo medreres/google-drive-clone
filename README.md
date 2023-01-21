@@ -1,6 +1,6 @@
 # React Drive
 
-A React.js app with functionality, you'd expect from any online storage: deleting, renaming, adding and sharing files. [Demo verison](https://github.com/medreres/google-drive-clone) to poke around!
+A React.js app with functionality, you'd expect from any online storage: deleting, renaming, adding and sharing files. [Demo verison](https://auth-production-a2c5b.web.app/) to poke around!
 ![React Drive](./readme/react%20drive.png)
 
 # Installation
